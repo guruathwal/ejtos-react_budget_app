@@ -3,10 +3,18 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Budget = () => {
-    const { budget, dispatch, currency } = useContext(AppContext);
+    const { expenses, budget, dispatch, currency } = useContext(AppContext);
+    const totalExpenses = expenses.reduce((total, item) => {
+      return (total = total + item.cost);
+  }, 0);
 
   const handleBudgetChange = (newBudget) => {
-    dispatch({ type: 'SET_BUDGET', payload: newBudget });
+    if (totalExpenses < newBudget)
+    {
+      dispatch({ type: 'SET_BUDGET', payload: newBudget });
+    } else {
+      alert("You cannot reduce the budget value lower than the spending.");
+    }
   };
 
   return (
